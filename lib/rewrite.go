@@ -39,6 +39,9 @@ func (a *HTACL) Marshal() string {
 
 // Unmarshal function
 func (a *HTACL) Unmarshal(input []string) {
+	if len(input) < 2 || strings.TrimSpace(input[0]) == "" {
+		return
+	}
 	if input[0] == "RewriteEngine" {
 		a.RewriteEngine = input[1]
 	} else if input[0] == "RewriteBase" {
