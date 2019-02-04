@@ -62,6 +62,10 @@ func (a *HTACL) Unmarshal(input []string) {
 			tmp = append(tmp, i[:len(i)])
 		}
 		rule.Parameters = tmp
+		if a.exists(rule) {
+			fmt.Println("Warn: duplicate line found")
+			return
+		}
 		a.RewriteRules = append(a.RewriteRules, rule)
 	} else if input[0] == "Header" {
 		return
@@ -69,6 +73,25 @@ func (a *HTACL) Unmarshal(input []string) {
 		fmt.Printf("Unexpect HTACL argument: " + input[0])
 		os.Exit(1)
 	}
+}
+
+func (a *HTACL) exists(rule RewriteRule) bool {
+	for _, r := range a.RewriteRules {
+		if r.URL == rule.URL {
+			if r.Regex == rule.Regex {
+				flag := true
+				for _, parameter := range rule.Parameters {
+					if !Contains(r.Parameters, parameter) {
+						flag = false
+					}
+				}
+				if flag {
+					return true
+				}
+			}
+		}
+	}
+	return false
 }
 
 // ToWebConfig function transforms a HTACL file struct to a Configuration XML struct
