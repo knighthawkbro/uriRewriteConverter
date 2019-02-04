@@ -63,6 +63,8 @@ func (a *HTACL) Unmarshal(input []string) {
 		}
 		rule.Parameters = tmp
 		a.RewriteRules = append(a.RewriteRules, rule)
+	} else if input[0] == "Header" {
+		return
 	} else {
 		fmt.Printf("Unexpect HTACL argument: " + input[0])
 		os.Exit(1)
