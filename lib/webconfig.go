@@ -69,7 +69,8 @@ func Unmarshal(data []byte) *Configuration {
 
 // Marshal function marshals configuration struct to string
 func (x *Configuration) Marshal() string {
-	output, err := xml.MarshalIndent(x, "", "    ")
+	// output, err := xml.MarshalIndent(x, "", "    ")
+	output, err := xml.Marshal(x)
 	CheckErr("Could not marshal data", err)
 	return fmt.Sprintf("%s%s", xml.Header, output)
 }
