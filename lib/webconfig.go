@@ -67,6 +67,24 @@ func Unmarshal(data []byte) *Configuration {
 	return v
 }
 
+// EnableHTTPS function
+func (x *Configuration) EnableHTTPS() {
+	for i := range x.SystemWebServer.Rewrite.Rules {
+		if strings.Contains(x.SystemWebServer.Rewrite.Rules[i].Action.URL, "http://") {
+			x.SystemWebServer.Rewrite.Rules[i].Action.URL = strings.Replace(x.SystemWebServer.Rewrite.Rules[i].Action.URL, "http://", "https://", -1)
+		}
+	}
+}
+
+// EnableHTTP function
+func (x *Configuration) EnableHTTP() {
+	for i := range x.SystemWebServer.Rewrite.Rules {
+		if strings.Contains(x.SystemWebServer.Rewrite.Rules[i].Action.URL, "https://") {
+			x.SystemWebServer.Rewrite.Rules[i].Action.URL = strings.Replace(x.SystemWebServer.Rewrite.Rules[i].Action.URL, "https://", "http://", -1)
+		}
+	}
+}
+
 // Marshal function marshals configuration struct to string
 func (x *Configuration) Marshal() string {
 	// output, err := xml.MarshalIndent(x, "", "    ")

@@ -14,11 +14,12 @@ func main() {
 	var usage = `uriRewriteConverter takes in a flag and a file and converts it from ht.acl 
 rewrite format to Microsoft web.config XML or vice versa.
 
-Usage: uriRewriteConverter [-v] {-a|-x} <FileName>
+Usage: uriRewriteConverter [-v|-s] {-a|-x} <FileName>
 `
 	verbose := flag.Bool("v", false, "Sends output to STDOUT instead of a file")
 	htacl := flag.Bool("a", false, "Converts a HT.ACL file to Microsoft Web.Config XML")
 	web := flag.Bool("x", false, "Converts a Web.Config XML back to a HT.ACL")
+	https := flag.Bool("s", false, "Rewrites all HTTP requests to HTTPS")
 
 	flag.Usage = func() {
 		fmt.Printf(usage)
@@ -46,11 +47,21 @@ Usage: uriRewriteConverter [-v] {-a|-x} <FileName>
 			s := strings.TrimSpace(scanner.Text())
 			a.Unmarshal(strings.Split(s, " "))
 		}
+		if *https {
+			a.EnableHTTPS()
+		} else {
+			a.EnableHTTP()
+		}
 		x = a.ToWebConfig()
 	} else if *web {
 		input, err := ioutil.ReadAll(f)
 		lib.CheckErr("Unable to read file", err)
 		x = lib.Unmarshal(input)
+		if *https {
+			x.EnableHTTPS()
+		} else {
+			x.EnableHTTP()
+		}
 		a = x.ToHTACL()
 	} else {
 		fmt.Println("ERROR: No file format parameter set...")

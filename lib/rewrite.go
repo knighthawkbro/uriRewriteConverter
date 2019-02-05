@@ -94,6 +94,24 @@ func (a *HTACL) exists(rule RewriteRule) bool {
 	return false
 }
 
+// EnableHTTPS function
+func (a *HTACL) EnableHTTPS() {
+	for i := range a.RewriteRules {
+		if strings.Contains(a.RewriteRules[i].URL, "http://") {
+			a.RewriteRules[i].URL = strings.Replace(a.RewriteRules[i].URL, "http://", "https://", -1)
+		}
+	}
+}
+
+// EnableHTTP function
+func (a *HTACL) EnableHTTP() {
+	for i := range a.RewriteRules {
+		if strings.Contains(a.RewriteRules[i].URL, "https://") {
+			a.RewriteRules[i].URL = strings.Replace(a.RewriteRules[i].URL, "https://", "http://", -1)
+		}
+	}
+}
+
 // ToWebConfig function transforms a HTACL file struct to a Configuration XML struct
 func (a *HTACL) ToWebConfig() *Configuration {
 	res := &Configuration{}
