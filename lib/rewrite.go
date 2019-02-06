@@ -133,8 +133,8 @@ func (a *HTACL) ToWebConfig() *Configuration {
 			rule.Name = r.Regex + " to " + r.URL
 			rule.Match.URL = r.Regex
 		}
-		rule.Conditions.LogicalGrouping = "MatchAll"
-		rule.Conditions.TrackAllCaptures = false
+		// rule.Conditions.LogicalGrouping = "MatchAll"
+		// rule.Conditions.TrackAllCaptures = false
 		rule.Action.Type = "Rewrite"
 		rule.Action.URL = r.URL
 		// TODO: Rewrite this to use regex instead of using static strings

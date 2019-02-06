@@ -34,11 +34,11 @@ type Rewrite struct {
 
 // Rule struct
 type Rule struct {
-	Name           string     `xml:"name,attr"`
-	StopProcessing *bool      `xml:"stopProcessing,attr"`
-	Match          Match      `xml:"match"`
-	Conditions     Conditions `xml:"conditions"`
-	Action         Action     `xml:"action"`
+	Name           string `xml:"name,attr"`
+	StopProcessing *bool  `xml:"stopProcessing,attr"`
+	Match          Match  `xml:"match"`
+	// Conditions     Conditions `xml:"conditions"`
+	Action Action `xml:"action"`
 }
 
 // Match struct
@@ -48,10 +48,10 @@ type Match struct {
 }
 
 // Conditions struct
-type Conditions struct {
-	LogicalGrouping  string `xml:"logicalGrouping,attr"`
-	TrackAllCaptures bool   `xml:"trackAllCaptures,attr"`
-}
+// type Conditions struct {
+// 	LogicalGrouping  string `xml:"logicalGrouping,attr"`
+// 	TrackAllCaptures bool   `xml:"trackAllCaptures,attr"`
+// }
 
 // Action struct The action of a Rule has two attributes, type and the URL
 type Action struct {
